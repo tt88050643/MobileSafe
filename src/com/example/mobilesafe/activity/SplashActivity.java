@@ -27,6 +27,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +86,8 @@ public class SplashActivity extends Activity {
 		tvVersion = (TextView) findViewById(R.id.tv_version);
 		tvProgress = (TextView) findViewById(R.id.tv_progress);
 		tvVersion.setText("版本号：" + getVersionName());
+		RelativeLayout rlRoot = (RelativeLayout) findViewById(R.id.rl_root);
+		
 		//判断是否需要自动更新
 		mPref = getSharedPreferences("config", MODE_PRIVATE);
 		autoUpdate = mPref.getBoolean("auto_update", true);
@@ -92,7 +96,10 @@ public class SplashActivity extends Activity {
 		}else {
 			mHandler.sendEmptyMessageDelayed(CODE_ENTER_HOME, 2000);
 		}
-		
+		//渐变动画效果
+		AlphaAnimation anim = new AlphaAnimation((float) 0.3, 1);
+		anim.setDuration(2000);
+		rlRoot.startAnimation(anim);
 	}
 	/**
 	 * 返回本地App的版本名
@@ -136,7 +143,7 @@ public class SplashActivity extends Activity {
 				Message message = Message.obtain();
 				HttpURLConnection connection = null;
 				try {
-					URL url = new URL("http://192.168.101.196:8080/update.json");
+					URL url = new URL("http://192.168.101.123:8080/update.json");
 					connection = (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("GET");
 					connection.setConnectTimeout(5000);//连接超时

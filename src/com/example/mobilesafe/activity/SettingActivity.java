@@ -22,16 +22,12 @@ public class SettingActivity extends Activity {
 		setContentView(R.layout.activity_setting); 
 		final SharedPreferences mPref = getSharedPreferences("config", MODE_PRIVATE);
 		sivUpdate = (SettingItemView) findViewById(R.id.siv_update);
-		sivUpdate.setTitle("设置自动更新");
 		boolean autoUpdate = mPref.getBoolean("auto_update", true);
 		if(autoUpdate){
-			sivUpdate.setDesc("自动更新已开启");
 			sivUpdate.setChecked(true);
 		}else {
-			sivUpdate.setDesc("自动更新已关闭");
 			sivUpdate.setChecked(false);
 		}
-		sivUpdate.setDesc("设置自动更新已开启");
 		sivUpdate.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -39,11 +35,9 @@ public class SettingActivity extends Activity {
 				//判断当前的勾选状态
 				if(sivUpdate.isChecked()){
 					sivUpdate.setChecked(false);
-					sivUpdate.setDesc("自动更新已关闭");
 					mPref.edit().putBoolean("auto_update", false).commit();
 				}else {
 					sivUpdate.setChecked(true);
-					sivUpdate.setDesc("自动更新已开启");
 					mPref.edit().putBoolean("auto_update", true).commit();
 				}
 			}
